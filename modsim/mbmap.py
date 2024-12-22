@@ -79,7 +79,7 @@ class ModbusMap(object):
             mmr = ModbusMapRegs(offset, len(data)/2, data, MBMAP_REGS_ACCESS_RW)
             self.regs.append(mmr)
             f.close()
-        except Exception, e:
+        except Exception(e):
             try:
                 f.close()
             except:
@@ -207,7 +207,7 @@ class ModbusMap(object):
                 else:
                     last_regs.append(offset, rlen, data, access)
 
-        except Exception, e:
+        except Exception(e):
             raise ModbusMapError('Error loading %s (%s) at offset %d - %s' % (filename, pathlist, offset, str(e)))
 
     def to_xml(self, parent=None, no_data=False):
@@ -215,7 +215,7 @@ class ModbusMap(object):
         attr = {}
         attr[MBMAP_ADDR] = str(self.base_addr)
         attr[MBMAP_FUNC] =  func_name.get(self.func, MBMAP_FUNC_HOLDING)
- 
+
         if parent is None:
             element = ET.Element(MBMAP_ROOT, attrib=attr)
         else:
@@ -287,11 +287,11 @@ class ModbusMap(object):
 
         # must have all requested data for success
         if len(data) != int(count) * 2:
-            print self
+            print(self)
             raise ModbusMapError('Data read error - addr = %d  data len = %d  count = %d' % (addr, len(data), count))
 
         return data
-    
+
     def write(self, addr, data):
 
         data_len = len(data)
@@ -398,5 +398,3 @@ class ModbusMapRegs(object):
     def __str__(self):
         s = '  offset = %s count = %s access = %s' % (str(self.offset), str(self.count), str(self.access))
         return s
-
-
